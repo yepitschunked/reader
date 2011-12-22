@@ -52,4 +52,5 @@ test:
 
 production:
   <<: *development
+  database: reader_production
   
