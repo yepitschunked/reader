@@ -8,6 +8,9 @@ preload_app true
 timeout 30
 listen 3000
 
+stderr_path "/var/rails/reader/shared/log/unicorn.stderr.log"
+stdout_path "/var/rails/reader/shared/log/unicorn.stdout.log"
+
 after_fork do |server, worker|
   # Here we are establishing the connection after forking worker
   # processes
