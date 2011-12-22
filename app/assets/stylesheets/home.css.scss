@@ -14,12 +14,14 @@
 
 
 .item {
-  border: 3px solid #88b;
+  border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
 
+  &#viewing {
+    border: 3px solid #88b;
+  }
   &.read {
-    border: 2px solid #aaf;
     .title {
       color: gray;
     }
@@ -32,5 +34,5 @@
     margin-bottom: 1em;
   }
 
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
 }
