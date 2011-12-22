@@ -1,7 +1,15 @@
 Reader::Application.routes.draw do
   devise_for :users
 
-  resources :feeds
+  resources :feeds do
+    collection do
+      get :refresh
+    end
+  end
+
+  resources :items do
+    put :read
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

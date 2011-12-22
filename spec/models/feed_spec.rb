@@ -5,7 +5,7 @@ describe Feed do
     it "should create a feed and subscribe the user to it" do
       Feed.any_instance.stub(:refresh) { nil }
       user = Factory.create(:user)
-      feed = Feed.create_feed({:location => 'test.test'}, user)
+      feed = Feed.create_feed({:original_location => 'test.test'}, user)
       feed.subscriptions.first.user.should == user
     end
   end
@@ -13,7 +13,7 @@ describe Feed do
   describe "#refresh" do
     before do
       dummy_feed_items = Factory.build_list(:unprocessed_item, 10) 
-      @dummy_rss_feed = mock(:title => 'fake', :description => 'fake', :items => dummy_feed_items)
+      @dummy_rss_feed = mock(:title => 'fake', :description => 'fake', :entries => dummy_feed_items)
       Feed.any_instance.stub(:feed).and_return(@dummy_rss_feed)
       @feed = Feed.create(:original_location => 'test.test', :title => 'test', :description => 'test') 
     end
@@ -29,18 +29,19 @@ describe Feed do
     context "without any existing items" do
       it "should create items for all the articles in the feed" do
         subject.refresh
-        subject.items.length.should == @dummy_rss_feed.items.length
+        subject.items.length.should == @dummy_rss_feed.entries.length
       end
     end
 
     context "with existing items" do
       before do
-        subject.items = [Factory.build(:item, :item_id => 'encountered')]
+        encountered_item_id = Digest::MD5.hexdigest('encountered')
+        subject.items = [Factory.build(:item, :item_id => encountered_item_id)]
 
-        @dummy_rss_feed.stub(:items).and_return([
-          Factory.build(:unprocessed_item), 
-          Factory.build(:unprocessed_item, :id => 'encountered'),
-          Factory.build(:unprocessed_item)
+        @dummy_rss_feed.stub(:entries).and_return([
+          Factory.build(:unprocessed_item, :url => 'new item 1'), 
+          Factory.build(:unprocessed_item, :url => 'encountered'),
+          Factory.build(:unprocessed_item, :url => 'not new item')
         ])
       end
 

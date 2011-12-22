@@ -11,7 +11,7 @@ gem 'pg'
 gem 'devise'
 
 gem 'haml'
-gem 'feed-normalizer'
+gem 'feedzirra'
 
 gem 'activerecord-import'
 
@@ -28,6 +28,9 @@ group :test, :development do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'ruby-debug19'
+  gem 'looksee'
+  gem 'newrelic_rpm'
 end
 
 gem 'jquery-rails'

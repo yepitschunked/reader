@@ -7,10 +7,9 @@ FactoryGirl.define do
     item_id { Factory.next(:item_id) }
   end
 
-  factory :unprocessed_item, :class => FeedNormalizer::Entry do
+  factory :unprocessed_item, :class => Feedzirra::Parser::AtomEntry do
     title 'title'  
     content 'lorem ipsum'
-    urls ['test.test']
-    id { Factory.next(:item_id) }
+    url 'test.test'
   end
 end

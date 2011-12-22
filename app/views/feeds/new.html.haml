@@ -1,0 +1,8 @@
+.modal.hide#add-form
+  .modal-body
+    = form_for Feed.new do |f|
+      .input
+        = f.label :original_location, "Feed URL: " 
+        = f.text_field :original_location
+        = f.submit :class => 'btn primary'
+  .modal-footer
