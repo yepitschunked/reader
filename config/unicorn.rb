@@ -8,7 +8,7 @@ preload_app true
 timeout 30
 listen 3000
 
-pid "/var/rails/reader/shared/log/unicorn.stderr.log" 
+pid "/var/rails/reader/current/tmp/pids/unicorn.pid" 
 
 stderr_path "/var/rails/reader/shared/log/unicorn.stderr.log"
 stdout_path "/var/rails/reader/shared/log/unicorn.stdout.log"
