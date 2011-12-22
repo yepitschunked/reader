@@ -9,8 +9,11 @@ gem 'pg'
 
 #Auth
 gem 'devise'
-gem 'cancan'
 
+gem 'haml'
+gem 'feed-normalizer'
+
+gem 'activerecord-import'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -19,6 +22,12 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.0'
 
   gem 'uglifier', '>= 1.0.3'
+end
+
+group :test, :development do
+  gem 'rspec'
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
 end
 
 gem 'jquery-rails'

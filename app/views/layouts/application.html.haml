@@ -1,0 +1,13 @@
+!!!
+%html
+  %head
+    %title Reader
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    = stylesheet_link_tag "http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css", :media => "screen"
+    = csrf_meta_tags
+  %body
+    .flashes
+      = notice
+      = alert
+    = yield

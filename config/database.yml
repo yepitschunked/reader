@@ -12,7 +12,7 @@
 # Configure Using Gemfile
 # gem 'pg'
 #
-development:
+development: &development
   adapter: postgresql
   encoding: unicode
   database: reader_development
@@ -43,15 +43,13 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: welloreader_test
+  database: reader_test
   pool: 5
-  username: welloreader
+  username: reader
   password:
+  host: localhost
+  port: 5432
 
 production:
-  adapter: postgresql
-  encoding: unicode
-  database: welloreader_production
-  pool: 5
-  username: welloreader
-  password:
+  <<: *development
+  
