@@ -1,7 +1,11 @@
 class FeedsController < ApplicationController
   def create
-    Feed.create_feed(params[:feed], current_user)
-    head :ok
+    if params[:google_opml]
+      Feed.create_from_opml(params[:google_opml], current_user)
+    else
+      Feed.create_feed(params[:feed], current_user)
+      head :ok
+    end
   end
 
   def new

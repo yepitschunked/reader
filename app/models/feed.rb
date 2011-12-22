@@ -1,3 +1,4 @@
+require 'jobs/feed_refresh_job'
 class Feed < ActiveRecord::Base
   has_many :items do
     def latest_item
@@ -9,7 +10,24 @@ class Feed < ActiveRecord::Base
 
   validates_presence_of :original_location
 
-  after_create :refresh
+  after_create :queue_refresh
+
+  def queue_refresh
+    Resque.enqueue(FeedRefreshJob, self.id)
+  end
+
+  def self.create_from_opml(opml_file, user)
+    parsed = Nokogiri.parse(opml_file.read)
+    Feed.transaction do
+      parsed.css('outline').each do |sub|
+        attrs = sub.attributes
+        feed = Feed.find_or_initialize_by_original_location(attrs['xmlUrl'].value)
+        feed.title = attrs['title'].value
+        feed.save! if feed.new_record?
+        feed.subscriptions.create(:user => user)
+      end
+    end
+  end
 
   def self.create_feed(params, user)
     feed = Feed.find_or_initialize_by_original_location(params[:original_location])

@@ -1,3 +1,4 @@
+require 'resque/server'
 Reader::Application.routes.draw do
   devise_for :users
 
@@ -11,6 +12,7 @@ Reader::Application.routes.draw do
     put :read
   end
 
+  mount Resque::Server.new, :at => "/resque"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

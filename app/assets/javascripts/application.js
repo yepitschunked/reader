@@ -14,3 +14,4 @@
 //= require jquery_ujs
 //= require_tree .
 //= require lib/bootstrap-modal
+//= require jquery.remotipart
