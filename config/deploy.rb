@@ -55,5 +55,7 @@ namespace :deploy do
   task :restart, :roles => :app, :except => { :no_release => true } do
     stop
     start
+    # restart resque workers
+    run "cd #{current_path} && rake queue:restart_workers RAILS_ENV=production"
   end
 end
