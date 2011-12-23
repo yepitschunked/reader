@@ -19,11 +19,13 @@ class Item < ActiveRecord::Base
   end
 
   def as_json(user)
-    if user
+    res = if user
       hash = super()
       hash.merge!({:read => read_by?(user)})
     else
       super
     end
+    res.merge!({:feed_title => self.feed.title, :time_delta => Object.new.extend(ActionView::Helpers::DateHelper).time_ago_in_words(self.created_at) + " ago"})
+    res
   end
 end

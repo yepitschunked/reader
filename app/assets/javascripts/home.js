@@ -1,4 +1,4 @@
-var item_prototype = $('<div/>', {'class': 'item'}).append($('<a/>', {'class': 'title'})).append($('<div/>', {'class': 'body'}));
+var item_prototype = $('<div/>', {'class': 'item'}).append($('<a/>', {'class': 'title'})).append($('<div/>', {'class': 'time_delta'})).append($('<div/>', {'class': 'body'}));
 
 $(function() {
   $('li.subscription.selected a').click();
@@ -7,7 +7,8 @@ $(function() {
     $.each(json.items, function(idx, item) {
       var entry = item_prototype.clone();
       entry.data('item-id', item.id);
-      entry.find('.title').html(item.title).attr('href', item.original_location);
+      entry.find('.title').text(item.title).attr('href', item.original_location);
+      entry.find('.time_delta').text(item.time_delta);
       entry.find('.body').html(item.content);
       if(item.read) {
         entry.addClass('read')
@@ -57,7 +58,7 @@ $(function() {
       didScroll = true;
       scrollDirection = (scrollPrev > window.pageYOffset) ? 0 : 1;
       scrollPrev = window.pageYOffset;
-    }, 150);
+    }, 25);
   });
 
   setInterval(function() {

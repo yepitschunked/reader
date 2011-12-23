@@ -7,6 +7,7 @@ class Feed < ActiveRecord::Base
   end
   has_many :subscriptions
   has_many :users, :through => :subscriptions
+  AGGREGATE_FEED = -1
 
   validates_presence_of :original_location
 
@@ -14,6 +15,17 @@ class Feed < ActiveRecord::Base
 
   def queue_refresh
     Resque.enqueue(FeedRefreshJob, self.id)
+  end
+
+  def self.aggregate_feed_for(user, page)
+    page ||= 0
+    virtual_feed = Feed.new
+    virtual_feed.items = user.feeds.map do |f|
+      f.items.order('created_at desc').limit(5).offset(page * 5)
+    end.flatten.sort_by {|i| i.created_at.to_i*-1 } #invert baby
+    virtual_feed.id = AGGREGATE_FEED
+    virtual_feed.title = "All Feeds"
+    virtual_feed
   end
 
   def self.create_from_opml(opml_file, user)
@@ -61,7 +73,9 @@ class Feed < ActiveRecord::Base
   def as_json(opts)
     for_user = opts.delete :for_user
     super(opts) unless for_user
-    super(opts).merge!({:items => self.items.as_json(for_user)})
+    hsh = super(opts).merge!({:items => self.items.as_json(for_user)})
+    hsh.merge!({:id => 'all'}) if self.id == AGGREGATE_FEED
+    hsh
   end
 
   private
