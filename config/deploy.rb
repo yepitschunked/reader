@@ -53,8 +53,7 @@ namespace :deploy do
     run "#{try_sudo} [[ -e #{unicorn_pid} ]] && kill -s USR2 `cat #{unicorn_pid}`; true"
   end
   task :restart, :roles => :app, :except => { :no_release => true } do
-    stop
-    start
+    reload
     # restart resque workers
     run "cd #{current_path} && rake queue:restart_workers RAILS_ENV=production"
   end
