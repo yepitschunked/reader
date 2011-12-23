@@ -20,10 +20,13 @@ $(function() {
     $('#feed_'+json.id).addClass('selected');
   });
 
-  $('.item:not(.read)').live({
+  $('.item').live({
     'click': function() {
-      $(this).trigger('read');
+      if(!$(this).is('.read')) {
+        $(this).trigger('read');
+      }
       $(this).trigger('focus');
+      $(window).scrollTop($(this).offset().top);
     },
   });
 

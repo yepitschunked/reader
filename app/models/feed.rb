@@ -1,6 +1,6 @@
 require 'jobs/feed_refresh_job'
 class Feed < ActiveRecord::Base
-  has_many :items do
+  has_many :items, :dependent => :destroy do
     def latest_item
       order('created_at desc').first
     end
@@ -43,12 +43,17 @@ class Feed < ActiveRecord::Base
     @feed || Feedzirra::Feed.fetch_and_parse(original_location)
   end
 
+  def virgin?
+    last_updated.blank?
+  end
+
   def refresh
     raise unless persisted?
     @feed = nil # clear any cached feed
     self.title = self.feed.title
     self.description = self.feed.description
     Item.import build_items(self.feed)
+    self.last_updated = Time.now
     self.items(true)
     self.save
   end

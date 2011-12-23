@@ -20,6 +20,8 @@ class FeedsController < ApplicationController
 
   def show
     session[:active_feed] = params[:id].to_i
-    render :json => current_user.feeds.find(params[:id], :include => {:items => :readings}).as_json(:include => :items, :for_user => current_user)
+    feed = current_user.feeds.find(params[:id], :include => {:items => :readings})
+    feed.refresh if feed.virgin?
+    render :json => feed.as_json(:include => :items, :for_user => current_user)
   end
 end
