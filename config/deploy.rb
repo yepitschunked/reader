@@ -20,7 +20,7 @@ set :use_sudo, false
 
 set :rails_env, 'production'
 
-server "reader-test.stillraging.net", :web, :app, :db, :primary => true
+server "reader.stillraging.net", :web, :app, :db, :primary => true
 
 # if you're still using the script/reaper helper you will need
 # these http://github.com/rails/irs_process_scripts
