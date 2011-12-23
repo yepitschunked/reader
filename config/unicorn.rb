@@ -1,4 +1,4 @@
-worker_processes 2
+worker_processes 10
 
 # This loads the application in the master process before forking
 # worker processes
