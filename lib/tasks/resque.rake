@@ -23,6 +23,6 @@ namespace :queue do
       system("kill -QUIT #{pids.join(' ')}")
     end
     
-    system("rm /var/run/god/resque-1.8.0*.pid")
+    system("rm $HOME/god/resque-1.8.0*.pid")
   end
 end
