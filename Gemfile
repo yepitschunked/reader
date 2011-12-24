@@ -27,6 +27,7 @@ end
 group :test, :development do
   gem 'rspec'
   gem 'rspec-rails'
+  gem 'cucumber-rails'
   gem 'factory_girl_rails'
   gem 'ruby-debug19'
   gem 'looksee'
