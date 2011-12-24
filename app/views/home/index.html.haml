@@ -6,6 +6,8 @@
   #sidebar.sidebar
     %ul.subscriptions
       Subscriptions
+      %li.subscription{:id => "feed_all", :class => ('selected' if session[:active_feed] == Feed::AGGREGATE_FEED)}
+        = link_to "All Feeds", {:controller => :feeds, :action => :show, :id => Feed::AGGREGATE_FEED}, {:remote => true}
       - current_user.feeds.each do |feed|
         %li.subscription{:id => "feed_#{feed.id}", :class => ('selected' if session[:active_feed] == feed.id)}
           = link_to feed.title, feed, {:title => feed.description, :remote => true}

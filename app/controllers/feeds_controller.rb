@@ -20,6 +20,17 @@ class FeedsController < ApplicationController
 
   def show
     session[:active_feed] = params[:id].to_i
-    render :json => current_user.feeds.find(params[:id], :include => {:items => :readings}).as_json(:include => :items, :for_user => current_user)
+    if params[:id].to_i == Feed::AGGREGATE_FEED
+      show_all and return
+    else
+      feed = current_user.feeds.find(params[:id], :include => {:items => :readings})
+      feed.refresh if feed.virgin?
+      render :json => feed.as_json(:include => :items, :for_user => current_user)
+    end
+  end
+
+  def show_all
+    feed = Feed.aggregate_feed_for(current_user, params[:page])
+    render :json => feed.as_json(:include => :items, :for_user => current_user)
   end
 end
