@@ -6,4 +6,15 @@ class ApplicationController < ActionController::Base
     Thread.current[:user] = current_user
   end
   protect_from_forgery
+
+  layout :layout_by_resource
+  protected
+
+  def layout_by_resource
+    if devise_controller?
+      "devise"
+    else
+      "application"
+    end
+  end
 end
