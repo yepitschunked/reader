@@ -60,7 +60,6 @@ class Feed < ActiveRecord::Base
       self.error = "NOT_A_FEED"
     else
       self.title = self.feed.title
-      self.description = self.feed.description
       Item.import build_items(self.feed)
       self.last_updated = Time.now
       self.items(true)
