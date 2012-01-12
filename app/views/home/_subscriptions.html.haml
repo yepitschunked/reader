@@ -1,0 +1,11 @@
+%h3 Subscriptions
+%div
+  = label_tag :only_unread, "Only show unread"
+  = check_box_tag :only_unread
+%br
+%ul.subscriptions
+  = subscription_link Subscription::AGGREGATE_SUB
+  - current_user.subscriptions.includes(:feed).each do |sub|
+    = subscription_link sub
+  %a.btn{'data-controls-modal' => 'add-form', 'data-backdrop' => true}
+    Add New

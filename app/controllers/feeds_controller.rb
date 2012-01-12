@@ -1,36 +1,12 @@
 class FeedsController < ApplicationController
   def create
+    # These methods will create a new feed if necessary, otherwise it'll use an existing one
     if params[:google_opml]
-      Feed.create_from_opml(params[:google_opml], current_user)
+      f = Feed.create_from_opml(params[:google_opml], current_user)
     else
-      Feed.create_feed(params[:feed], current_user)
-      head :ok
+      f = Feed.create_feed(params[:feed], current_user)
     end
-  end
-
-  def new
-  end
-
-  def refresh
-    current_user.subscriptions.includes(:feed).each do |s|
-      s.feed.refresh
-    end
-    head :ok
-  end
-
-  def show
-    session[:active_feed] = params[:id].to_i
-    if params[:id].to_i == Feed::AGGREGATE_FEED
-      show_all and return
-    else
-      feed = current_user.feeds.find(params[:id], :include => {:items => :readings})
-      feed.refresh if feed.virgin?
-      render :json => feed.as_json(:include => :items, :for_user => current_user)
-    end
-  end
-
-  def show_all
-    feed = Feed.aggregate_feed_for(current_user, params[:page])
-    render :json => feed.as_json(:include => :items, :for_user => current_user)
+    current_user.subscribe_to! f
+    flash[:notice] = "Feeds successfully added!"
   end
 end

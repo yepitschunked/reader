@@ -7,7 +7,6 @@ class Feed < ActiveRecord::Base
   end
   has_many :subscriptions
   has_many :users, :through => :subscriptions
-  AGGREGATE_FEED = -1
 
   validates_presence_of :original_location
 
@@ -17,35 +16,25 @@ class Feed < ActiveRecord::Base
     Resque.enqueue(FeedRefreshJob, self.id)
   end
 
-  def self.aggregate_feed_for(user, page)
-    page ||= 0
-    virtual_feed = Feed.new
-    virtual_feed.items = user.feeds.map do |f|
-      f.items.order('created_at desc').limit(5).offset(page * 5)
-    end.flatten.sort_by {|i| i.created_at.to_i*-1 } #invert baby
-    virtual_feed.id = AGGREGATE_FEED
-    virtual_feed.title = "All Feeds"
-    virtual_feed
-  end
-
   def self.create_from_opml(opml_file, user)
     parsed = Nokogiri.parse(opml_file.read)
+    feeds = []
     Feed.transaction do
       parsed.css('outline').each do |sub|
         attrs = sub.attributes
         feed = Feed.find_or_initialize_by_original_location(attrs['xmlUrl'].value)
         feed.title = attrs['title'].value
         feed.save! if feed.new_record?
-        feed.subscriptions.create(:user => user)
+        feeds << feed
       end
     end
+    feeds
   end
 
   def self.create_feed(params, user)
     feed = Feed.find_or_initialize_by_original_location(params[:original_location])
     Feed.transaction do
       feed.save! if feed.new_record?
-      feed.subscriptions.create(:user => user)
     end
 
     feed
@@ -62,20 +51,21 @@ class Feed < ActiveRecord::Base
   def refresh
     raise unless persisted?
     @feed = nil # clear any cached feed
-    self.title = self.feed.title
-    self.description = self.feed.description
-    Item.import build_items(self.feed)
-    self.last_updated = Time.now
-    self.items(true)
+    case feed
+    when 0
+      self.error = "NXDOMAIN"
+    when Fixnum
+      self.error = "HTTP_STATUS #{feed}"
+    when nil
+      self.error = "NOT_A_FEED"
+    else
+      self.title = self.feed.title
+      self.description = self.feed.description
+      Item.import build_items(self.feed)
+      self.last_updated = Time.now
+      self.items(true)
+    end
     self.save
-  end
-
-  def as_json(opts)
-    for_user = opts.delete :for_user
-    super(opts) unless for_user
-    hsh = super(opts).merge!({:items => self.items.as_json(for_user)})
-    hsh.merge!({:id => 'all'}) if self.id == AGGREGATE_FEED
-    hsh
   end
 
   private

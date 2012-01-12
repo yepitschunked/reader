@@ -1,18 +1,11 @@
+- content_for :head do
+  = stylesheet_link_tag 'home'
+  = javascript_include_tag 'home'
 .top_bar
   %h1 Reader
-  = link_to "Refresh", {:controller => :feeds, :action => :refresh}, :remote => true
-%hr
 .container-fluid
-  #sidebar.sidebar
-    %ul.subscriptions
-      Subscriptions
-      %li.subscription{:id => "feed_all", :class => ('selected' if session[:active_feed] == Feed::AGGREGATE_FEED)}
-        = link_to "All Feeds", {:controller => :feeds, :action => :show, :id => Feed::AGGREGATE_FEED}, {:remote => true}
-      - current_user.feeds.each do |feed|
-        %li.subscription{:id => "feed_#{feed.id}", :class => ('selected' if session[:active_feed] == feed.id)}
-          = link_to feed.title, feed, {:title => feed.description, :remote => true}
-    %a#add_new{:href => '#', 'data-controls-modal' => 'add-form', 'data-backdrop' => true}
-      Add New
+  #sidebar.sidebar.subscriptions
+    = render :partial => 'subscriptions'
   .content
 
 = render :file => 'feeds/new'

@@ -10,5 +10,20 @@ class User < ActiveRecord::Base
   has_many :subscriptions
   has_many :feeds, :through => :subscriptions
   has_many :readings
-  has_many :read_items, :through => :readings, :source => :item
+
+  def subscribe_to!(*feeds)
+    self.feeds << feeds
+  end
+
+  def aggregate_subscription_items(only_unread = false)
+    items_sql = subscriptions.inject(nil) do |items, s|
+      i = (only_unread ? s.unread_items : s.items)
+      if items
+        items.union(i)
+      else
+        i
+      end
+    end.to_sql
+    Subscription::AggregateSubscriptionItems.new(items_sql)
+  end
 end

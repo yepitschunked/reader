@@ -2,6 +2,10 @@ require 'resque/server'
 Reader::Application.routes.draw do
   devise_for :users
 
+  resources :users do
+    resources :subscriptions
+  end
+
   resources :feeds do
     collection do
       get :refresh

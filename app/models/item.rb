@@ -6,6 +6,7 @@ class Item < ActiveRecord::Base
   validates_uniqueness_of :item_id
   validates_presence_of :title, :original_location
 
+
   def self.build_from_feed_item(feed, item)
     Item.new(:feed => feed, :title => item.title, :content => "#{item.summary}\n#{item.content}", :original_location => item.url, :item_id => Digest::MD5.hexdigest(item.url))
   end
