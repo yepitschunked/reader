@@ -19,7 +19,6 @@ gem 'activerecord-import'
 # in production environments by default.
 group :assets do
   gem 'sass-rails'
-  gem 'coffee-rails'
 
   gem 'uglifier', '>= 1.0.3'
 end
