@@ -1,4 +1,13 @@
 class FeedsController < ApplicationController
+  def index
+    render :json => current_user.feeds
+  end
+
+  def show
+    feed = current_user.feeds.find(params[:id])
+    feed.refresh if feed.virgin?
+    render :json => feed.as_json(:include => :items)
+  end
   def create
     # These methods will create a new feed if necessary, otherwise it'll use an existing one
     if params[:google_opml]

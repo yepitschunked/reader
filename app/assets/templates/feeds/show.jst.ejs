@@ -1,0 +1,13 @@
+<% feed.items.each(function(item) { %>
+  <div class='item'>
+    <a href='<%= item.get('original_location') %>' class='title'>
+      <%= item.get('title') %>
+    </a>
+    <div class='time_delta'>
+      <%= item.get('time_delta') %>
+    </div>
+    <div class='body'>
+      <%= item.get('content') %>
+    </div>
+  </div>
+<% }); %>

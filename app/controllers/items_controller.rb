@@ -4,4 +4,12 @@ class ItemsController < ApplicationController
     r.save if r.new_record?
     head :ok
   end
+
+  def index
+    if sub = Subscription.find_by_id(params[:subscription_id])
+      render :json => sub.items
+    else
+      render :json => Item.all
+    end
+  end
 end

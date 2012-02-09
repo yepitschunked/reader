@@ -1,11 +1,14 @@
 - content_for :head do
   = stylesheet_link_tag 'home'
   = javascript_include_tag 'home'
+  :javascript
+    Reader.starting_feeds = #{current_user.feeds.to_json.html_safe};
 .top_bar
   %h1 Reader
 .container-fluid
   #sidebar.sidebar.subscriptions
-    = render :partial => 'subscriptions'
+    %h3 Subscriptions
+    %ul.subscriptions
   .content
 
 = render :file => 'feeds/new'

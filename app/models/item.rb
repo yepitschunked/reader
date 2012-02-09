@@ -20,7 +20,7 @@ class Item < ActiveRecord::Base
   end
 
   def as_json(user)
-    res = if user
+    res = if user && user.is_a?(User)
       hash = super()
       hash.merge!({:read => read_by?(user)})
     else

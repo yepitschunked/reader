@@ -1,9 +1,13 @@
 class SubscriptionsController < ApplicationController
+  def index
+    sub = current_user.subscriptions
+    render :json => sub
+  end
   def show
     session[:active_sub] = params[:id].to_i
     @only_unread = case params[:only_unread]
                   when "true"
-                    true 
+                    true
                   when "false"
                     false
                   else

@@ -13,3 +13,15 @@
 //= require jquery_ujs
 //= require lib/bootstrap-modal
 //= require jquery.remotipart
+//
+//= require underscore
+//= require backbone
+
+//= require reader
+
+//= require_tree ../templates
+//= require_tree ./models
+//= require_tree ./collections
+//= require_tree ./views
+//= require_tree ./routers
+//= require_tree ./models

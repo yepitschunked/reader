@@ -1,33 +1,5 @@
-var item_prototype = $('<div/>', {'class': 'item'}).append($('<a/>', {'class': 'title'})).append($('<div/>', {'class': 'time_delta'})).append($('<div/>', {'class': 'body'}));
 
 $(function() {
-  $('li.subscription a').live('click', function(e) {
-    $.getJSON($(this).attr('href'), 
-      { only_unread: $('#only_unread').is(':checked') },
-      function(json) {
-        $('.content').empty();
-        $.each(json.items, function(idx, item) {
-          var entry = item_prototype.clone();
-          entry.data('item-id', item.id);
-          entry.find('.title').text(item.title).attr('href', item.original_location);
-          entry.find('.time_delta').text(item.time_delta);
-          entry.find('.body').html(item.content);
-          if(item.read) {
-            entry.addClass('read')
-          }
-          $('.content').append(entry);
-          $('.content').find('.item').first().attr('id', 'viewing');
-
-          $('#sidebar li.subscription.selected').removeClass('selected');
-          $('#sub_'+(json.id || "all")).addClass('selected');
-        });
-    });
-    e.preventDefault();
-    return false;
-  });
-
-  $('li.subscription.selected a').click();
-
   $('.item').live({
     'click': function() {
       if(!$(this).is('.read')) {

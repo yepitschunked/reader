@@ -14,6 +14,7 @@ gem 'haml'
 gem 'feedzirra'
 
 gem 'activerecord-import'
+gem 'backbone-on-rails'
 
 # Gems used only for assets and not required
 # in production environments by default.
