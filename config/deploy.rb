@@ -61,13 +61,18 @@ end
 
 namespace :assets do
   after "deploy:update_code", "assets:precompile"
-  after "assets:precompile", "assets:upload_assets"
-  after "assets:precompile", "assets:upload_manifest"
 
 
   desc "precompile assets"
   task :precompile do
-    run_locally("bundle exec rake assets:clean && bundle exec rake assets:precompile RAILS_ENV=#{rails_env}")
+    from = source.next_revision(current_revision)
+    if capture("cd #{latest_release} && #{source.local.log(from)} vendor/assets/ app/assets/ | wc -l").to_i > 0
+      run_locally("bundle exec rake assets:clean && bundle exec rake assets:precompile RAILS_ENV=#{rails_env}")
+      upload_assets
+      upload_manifest
+    else
+      logger.info "Skipping asset pre-compilation because there were no asset changes"
+    end
   end
 
   desc "precompile and upload assets to webserver"
