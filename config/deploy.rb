@@ -1,18 +1,18 @@
 $:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
 require "rvm/capistrano"                  # Load RVM's capistrano plugin.
 require 'bundler/capistrano'
-set :rvm_ruby_string, '1.9.2@rails3.2'    
+set :rvm_ruby_string, '1.9.2@rails3.2'
 
 
 set :application, "Reader"
-set :repository,  "git@github.com:wonnage/reader.git"
+set :repository,  "git://github.com/wonnage/reader.git"
 
 set :scm, :git
 set :scm_user, 'victor'
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
 set :user, "deploy"
-ssh_options[:forward_agent] = true
+ssh_options[:forward_agent] = false
 set :branch, "master"
 set :deploy_via, :remote_cache
 set :deploy_to, "/var/rails/reader"
