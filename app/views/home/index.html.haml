@@ -2,7 +2,10 @@
   = stylesheet_link_tag 'home'
   = javascript_include_tag 'home'
   :javascript
-    Reader.starting_feeds = #{current_user.feeds.to_json.html_safe};
+    $(function() {
+      var feeds = #{current_user.feeds_json.html_safe};
+      Reader.init({feeds: feeds});
+    });
 .top_bar
   %h1 Reader
 .container-fluid

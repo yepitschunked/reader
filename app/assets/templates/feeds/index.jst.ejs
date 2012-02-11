@@ -1,5 +1,10 @@
 <% feeds.each(function(f) { %>
-  <li class='subscription'>
+  <% if(selected == f) { %>
+    <li class='subscription selected'>
+  <% }
+  else { %>
+    <li class='subscription'>
+  <% } %>
     <a href="#feeds/<%= f.id %>">
       <%= f.escape('title') %>
     </a>

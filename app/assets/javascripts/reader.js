@@ -3,12 +3,9 @@ window.Reader = {
   Collections: {},
   Views: {},
   Routers: {},
-  init: function() {
-    window.feed_router = new Reader.Routers.Feeds({feeds: Reader.starting_feeds});
+  init: function(options) {
+    this.feeds = new Reader.Collections.Feeds().reset(options.feeds);
+    this.feed_router = new Reader.Routers.Feeds();
     Backbone.history.start();
   }
 };
-
-$(document).ready(function(){
-  Reader.init();
-});

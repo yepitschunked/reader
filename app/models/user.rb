@@ -16,14 +16,10 @@ class User < ActiveRecord::Base
   end
 
   def aggregate_subscription_items(only_unread = false)
-    items_sql = subscriptions.inject(nil) do |items, s|
-      i = (only_unread ? s.unread_items : s.items)
-      if items
-        items.union(i)
-      else
-        i
-      end
-    end.to_sql
-    Subscription::AggregateSubscriptionItems.new(items_sql)
+    Item.where(:feed_id => feeds).order('created_at desc')
+  end
+
+  def feeds_json
+    ([{:id => 'all', :title => 'All Items', :items => aggregate_subscription_items.page(1)}] + self.feeds).to_json
   end
 end

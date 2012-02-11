@@ -19,16 +19,4 @@ class Subscription < ActiveRecord::Base
   }, :extend => PaginatableItems
 
   AGGREGATE_SUB = -1
-
-  class AggregateSubscriptionItems
-    def initialize(finder_sql)
-      @finder_sql = "#{finder_sql} ORDER BY created_at desc LIMIT :limit OFFSET :offset"
-    end
-
-    def page(n)
-      n ||= 0
-      Item.find_by_sql([@finder_sql, {:limit => PaginatableItems::PAGE_SIZE, :offset => PaginatableItems::PAGE_SIZE * n}])
-    end
-  end
-
 end

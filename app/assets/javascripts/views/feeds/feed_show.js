@@ -8,5 +8,4 @@ Reader.Views.FeedShow = Backbone.View.extend({
     $(this.el).html(this.template({feed: this.feed}));
     $('.content').html(this.el);
   }
-
 });

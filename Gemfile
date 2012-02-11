@@ -15,6 +15,7 @@ gem 'feedzirra'
 
 gem 'activerecord-import'
 gem 'backbone-on-rails'
+gem 'kaminari'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -36,6 +37,7 @@ end
 gem 'jquery-rails'
 gem 'remotipart'
 gem 'resque'
+gem 'resque-scheduler'
 
 gem 'newrelic_rpm'
 # To use ActiveModel has_secure_password

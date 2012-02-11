@@ -6,9 +6,11 @@ class ItemsController < ApplicationController
   end
 
   def index
-    if sub = Subscription.find_by_id(params[:subscription_id])
-      render :json => sub.items
-    else
+    if feed = Feed.find_by_id(params[:feed_id])
+      render :json => feed.items
+    elsif params[:feed_id] == 'all'
+      render :json => current_user.aggregate_subscription_items.page(params[:page])
+    elsif params[:feed_id].blank?
       render :json => Item.all
     end
   end
