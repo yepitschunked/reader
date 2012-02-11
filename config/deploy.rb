@@ -58,3 +58,25 @@ namespace :deploy do
     run "cd #{current_path} && rake queue:restart_workers RAILS_ENV=production"
   end
 end
+
+namespace :assets do
+  after "deploy:update_code", "assets:precompile"
+  after "assets:precompile", "assets:upload_assets"
+  after "assets:precompile", "assets:upload_manifest"
+
+
+  desc "precompile assets"
+  task :precompile do
+    run_locally("bundle exec rake assets:clean && bundle exec rake assets:precompile RAILS_ENV=#{rails_env}")
+  end
+
+  desc "precompile and upload assets to webserver"
+    task :upload_assets, :roles => :app, :except => {:no_precompile => true} do
+    top.upload( "public/assets", "#{release_path}/public/assets", :via => :scp, :recursive => true)
+  end
+  #
+  desc "upload manifest file"
+  task :upload_manifest, :roles => :app do
+    top.upload( "public/assets/manifest.yml", "#{release_path}/public/", :via => :scp )
+  end
+end
