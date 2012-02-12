@@ -6,12 +6,9 @@
       var feeds = #{current_user.feeds_json.html_safe};
       Reader.init({feeds: feeds});
     });
-.top_bar
-  %h1 Reader
-.container-fluid
-  #sidebar.sidebar.subscriptions
-    %h3 Subscriptions
-    %ul.subscriptions
-  .content
+#sidebar.sidebar.subscriptions
+  %h3 Subscriptions
+  %ul.subscriptions
+.content
 
 = render :file => 'feeds/new'

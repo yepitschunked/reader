@@ -11,4 +11,8 @@
     .flashes
       = notice
       = alert
-    = yield
+    .top_bar
+      %h1 Reader
+      = link_to 'Sign Out', destroy_user_session_path, :method => :delete
+    .container-fluid
+      = yield

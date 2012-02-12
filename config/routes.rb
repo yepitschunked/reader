@@ -2,7 +2,7 @@ require 'resque/server'
 Reader::Application.routes.draw do
   devise_for :users
 
-  resources :users do
+  namespace :users do
     resources :subscriptions
   end
 
