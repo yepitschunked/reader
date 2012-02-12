@@ -1,6 +1,4 @@
 - content_for :head do
-  = stylesheet_link_tag 'home'
-  = javascript_include_tag 'home'
   :javascript
     $(function() {
       var feeds = #{current_user.feeds_json.html_safe};
