@@ -21,7 +21,6 @@ gem 'kaminari'
 # in production environments by default.
 group :assets do
   gem 'sass-rails'
-
   gem 'uglifier', '>= 1.0.3'
 end
 

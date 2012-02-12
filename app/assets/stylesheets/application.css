@@ -9,9 +9,6 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require bootstrap.min.css
+ *= require bootstrap.min
+ *= require home
 */
-
-@import feed.css.scss
-@import home.css.scss
-@import items.css.scss
