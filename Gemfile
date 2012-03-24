@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.1'
+gem 'rake'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -29,8 +30,11 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'cucumber-rails'
   gem 'factory_girl_rails'
-  gem 'ruby-debug19'
   gem 'looksee'
+end
+
+group :development do
+  gem 'ruby-debug19'
 end
 
 gem 'jquery-rails'

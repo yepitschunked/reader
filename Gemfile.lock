@@ -267,6 +267,7 @@ DEPENDENCIES
   newrelic_rpm
   pg
   rails (= 3.2.1)
+  rake
   remotipart
   resque
   resque-scheduler
