@@ -20,6 +20,6 @@ class User < ActiveRecord::Base
   end
 
   def feeds_json
-    ([{:id => 'all', :title => 'All Items', :items => aggregate_subscription_items.page(1)}] + self.feeds).to_json
+    ([{:id => 'all', :title => 'All Items', :items => aggregate_subscription_items.page(1).as_json(self)}] + self.feeds).to_json
   end
 end

@@ -9,7 +9,7 @@ class FeedsController < ApplicationController
     else
       feed = current_user.feeds.find(params[:id])
       feed.refresh if feed.virgin?
-      render :json => feed.as_json(:include => :items)
+      render :json => feed.as_json(:include => :items, :for_user => current_user)
     end
   end
   def create

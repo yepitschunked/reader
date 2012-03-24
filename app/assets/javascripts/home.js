@@ -1,31 +1,5 @@
 
 $(function() {
-  $('.item').live({
-    'click': function() {
-      if(!$(this).is('.read')) {
-        $(this).trigger('read');
-      }
-      $(this).trigger('focus');
-      $(window).scrollTop($(this).offset().top);
-    },
-  });
-
-  $('.item').live('focus', function() {
-      $('#viewing').removeAttr('id');
-      $(this).attr('id', 'viewing');
-  });
-
-  $('.item:not(.read)').live('read', function() {
-    $.ajax({
-      url: '/items/'+$(this).data('item-id')+'/read',
-      type: 'put',
-      context: this,
-      success: function() {
-        $(this).addClass('read');
-      }
-    });
-  });
-
   var didScroll = false;
   var scrollTimer = null;
   var scrollPrev = window.pageYOffset;
@@ -47,13 +21,21 @@ $(function() {
       // Load in more results
       var scroll_padding = scrollDirection ? -0.2 : 0.55;
       var items = $('.item');
+      var s = $(window).scrollTop(),
+        d = $(document).height(),
+        c = $(window).height();
+        scrollPercent = (s / (d-c)) * 100;
+
       if(items.first().offset().top > window.pageYOffset) {
-        items.first().trigger('read').trigger('focus');
+        items.first().trigger('focus')
+      }
+      else if(scrollPercent > 99) {
+        items.last().trigger('focus');
       }
       else {
         $('.item').each(function() {
           if(window.pageYOffset > $(this).offset().top - $(this).prev().outerHeight()*0.55 ) {
-            $(this).trigger('read').trigger('focus');
+            $(this).trigger('focus');
           }
         });
       }

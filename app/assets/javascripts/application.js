@@ -13,6 +13,7 @@
 //= require lib/bootstrap-modal
 //= require jquery.remotipart
 //= require reader
+//= require home
 
 //= require_tree ../templates
 //= require_tree ./models

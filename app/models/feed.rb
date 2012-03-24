@@ -67,6 +67,14 @@ class Feed < ActiveRecord::Base
     self.save
   end
 
+  def as_json(options = {})
+    if (include_items = options.delete(:items)) && options[:for_user]
+      super.merge!(:items => self.items.as_json(options[:for_user]))
+    else
+      super
+    end
+  end
+
   private
   def build_items(feed)
     freshest_item = self.items.latest_item

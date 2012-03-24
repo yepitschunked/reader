@@ -1,5 +1,6 @@
 - content_for :head do
   :javascript
+    $.ajaxSetup({cache: false});
     $(function() {
       var feeds = #{current_user.feeds_json.html_safe};
       Reader.init({feeds: feeds});

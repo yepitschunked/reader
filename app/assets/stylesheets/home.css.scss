@@ -3,6 +3,9 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @import "items";
 @import "feed";
+body {
+  padding-bottom: 2em;
+}
 #sidebar {
   ul.subscriptions {
     li {
@@ -26,7 +29,7 @@
   border-radius: 5px;
   padding: 10px;
 
-  &#viewing {
+  &.viewing {
     border: 3px solid #88b;
   }
   &.read {

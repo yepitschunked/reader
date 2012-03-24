@@ -7,6 +7,7 @@ class Item < ActiveRecord::Base
   validates_presence_of :title, :original_location
 
   scope :unread_by, lambda {|user| joins(:readings).where('readings.user_id = ?', user.id) }
+  paginates_per 5
 
 
   def self.build_from_feed_item(feed, item)
