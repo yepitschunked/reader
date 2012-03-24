@@ -45,7 +45,7 @@ test:
   encoding: unicode
   database: reader_test
   pool: 5
-  username: reader
+  username: <%= ENV['DB_USER'] || 'reader' %>
   password:
   host: localhost
   port: 5432
