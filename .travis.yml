@@ -11,3 +11,4 @@ before_script:
   - psql -c 'create database reader_test;' -U postgres
 env:
   - DB_USER=postgres
+script: "rake --trace"
