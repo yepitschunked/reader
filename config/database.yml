@@ -49,6 +49,7 @@ test:
   password:
   host: localhost
   port: 5432
+  min_messages: WARNING # so you don't get a bunch of implicit index creation notices
 
 production:
   <<: *development

@@ -26,11 +26,14 @@ group :assets do
 end
 
 group :test, :development do
+  gem 'looksee'
   gem 'rspec'
   gem 'rspec-rails'
-  gem 'cucumber-rails'
+end
+
+group :test do
+  gem 'cucumber-rails', :require => nil
   gem 'factory_girl_rails'
-  gem 'looksee'
 end
 
 group :development do
